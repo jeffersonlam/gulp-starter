@@ -33,9 +33,9 @@ gulp.task('scss', function() {
     .pipe(sass())
     .pipe(rename('main.css'))
     .pipe(gulp.dest('dist/css'))
-    .pipe(reload({stream:true}))
     .pipe(cssmin())
     .pipe(rename({ suffix: '.min' }))
+    .pipe(reload({stream:true}))
     .pipe(gulp.dest('dist/css'));
 });
 
@@ -56,8 +56,8 @@ gulp.task('js', function() {
   gulp.src('js/*.js')
     .pipe(uglify())
     .pipe(concat('all.min.js'))
-    .pipe(gulp.dest('dist/js'))
-    .pipe(reload({stream:true}));
+    .pipe(reload({stream:true}))
+    .pipe(gulp.dest('dist/js'));
 });
 
 gulp.task('scss-lint', function() {
