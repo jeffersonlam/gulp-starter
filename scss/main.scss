@@ -1,7 +1,9 @@
-$primary : red;
+$primary : #1c1c1c;
 
 * {
-  h1 {
-    color: $primary;
-  }
+  font-family: 'Helvetica';
+}
+
+h1 {
+  color: $primary;
 }
