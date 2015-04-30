@@ -1,0 +1,8 @@
+scss_files: 'scss/**/*.scss'
+
+exclude: 'scss/utilities/**'
+
+linters:
+  HexNotation:
+    enabled: true
+    style: 'uppercase'

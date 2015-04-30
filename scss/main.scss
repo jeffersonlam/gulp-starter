@@ -1,13 +1,4 @@
-$primary : #1c1c1c;
-
-* {
-  font-family: 'Helvetica';
-}
-
-h1 {
-  color: $primary;
-}
-
-p{
-  color: $primary;
-}
+@import 'utilities/index';
+@import 'base/index';
+@import 'layout/index';
+@import 'theme/index';
