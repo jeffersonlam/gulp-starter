@@ -10,8 +10,6 @@ var jshint = require('gulp-jshint');
 var scsslint = require('gulp-scss-lint');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
-var imagemin = require('gulp-imagemin');
-var pngquant = require('imagemin-pngquant');
 var plumber = require('gulp-plumber');
 var deploy = require('gulp-gh-pages');
 var notify = require('gulp-notify');
@@ -79,17 +77,6 @@ gulp.task('watch', function() {
   gulp.watch('scss/**/*.scss', ['scss']);
   gulp.watch('js/*.js', ['jshint', 'js']);
   gulp.watch('./*.html', ['html']);
-  gulp.watch('img/*', ['imgmin']);
 });
 
-gulp.task('imgmin', function () {
-    return gulp.src('img/*')
-        .pipe(imagemin({
-            progressive: true,
-            svgoPlugins: [{removeViewBox: false}],
-            use: [pngquant()]
-        }))
-        .pipe(gulp.dest('dist/img'));
-});
-
-gulp.task('default', ['scss-lint', 'browser-sync', 'js', 'imgmin', 'html', 'scss', 'watch']);
+gulp.task('default', ['scss-lint', 'browser-sync', 'js', 'html', 'scss', 'watch']);
