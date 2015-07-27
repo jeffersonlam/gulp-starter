@@ -11,9 +11,6 @@ var scsslint = require('gulp-scss-lint');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 var plumber = require('gulp-plumber');
-var deploy = require('gulp-gh-pages');
-var notify = require('gulp-notify');
-
 
 gulp.task('scss', function() {
   return gulp.src('scss/main.scss')
@@ -23,16 +20,6 @@ gulp.task('scss', function() {
     .pipe(rename({ suffix: '.min' }))
     .pipe(reload({stream:true}))
     .pipe(gulp.dest('dist/css'));
-
-  var onError = function(err) {
-    notify.onError({
-        title:    'Gulp',
-        subtitle: 'SCSS Compile Error!',
-        message:  '<%= error.message %>',
-        sound:    'Tink'
-    })(err);
-    this.emit('end');
-  };
 });
 
 gulp.task('browser-sync', function() {
