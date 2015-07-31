@@ -11,23 +11,20 @@ This is a starter repo with Gulp. Gulp tasks include:
 You will need:
 - Node
 - Npm
-- Gulp
-You can install Gulp by:
-```bash
-npm install gulp -g
-```
+- Gulp  
 
-1. Clone this repo
+
+##### 1. Clone this repo
 ```bash
 git clone https://github.com/jeffersonlam/gulp-starter.git
 ```
-2. In the cloned folder, install the dependencies
+##### 2. In the cloned folder, install the dependencies
 ```bash
 cd gulp-starter
 npm install
 ```
-3. Start up gulp
+##### 3. Start up gulp
 ```bash
 gulp
 ```
-4. Write some code!
+##### 4. Write some code!
