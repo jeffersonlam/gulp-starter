@@ -10,12 +10,10 @@ var jshint = require('gulp-jshint');
 var scsslint = require('gulp-scss-lint');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
-var plumber = require('gulp-plumber');
 
 gulp.task('scss', function() {
   return gulp.src('scss/main.scss')
-    .pipe(plumber({errorHandler: onError}))
-    .pipe(sass())
+    .pipe(sass({errLogToConsole: true}))
     .pipe(cssmin())
     .pipe(rename({ suffix: '.min' }))
     .pipe(reload({stream:true}))
