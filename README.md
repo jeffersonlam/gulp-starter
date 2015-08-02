@@ -10,8 +10,13 @@ This is a starter repo with Gulp. Gulp tasks include:
 ## Getting started
 You will need:
 - Node
-- Npm
-- Gulp  
+  - [Download Node here](https://nodejs.org/download/)
+- Gulp
+  - Run `npm install --global gulp`
+- scss-lint gem
+  - Run `gem install scss-lint`
+  - If you're on Mac, you might need to run `sudo gem install scss-lint`
+  - If all else fails, you can remove the `scss-lint` task altogether from `gulpfile.js`.
 
 
 ##### 1. Clone this repo
