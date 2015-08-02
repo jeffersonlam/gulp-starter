@@ -1,6 +1,6 @@
 scss_files: 'scss/**/*.scss'
 
-exclude: 'scss/utilities/**'
+exclude: 'scss/vendors/**'
 
 linters:
   HexNotation:

@@ -1,5 +1,12 @@
-@import 'vendors/index';
+//Vendors
+@import 'vendors/reset';
+
+//Base
 @import 'base/index';
+
+//Project
 @import 'layout/index';
 @import 'modules/index';
+
+//Theme
 @import 'themes/index';
