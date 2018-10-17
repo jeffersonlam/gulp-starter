@@ -1,67 +1,114 @@
 'use strict';
 
-var gulp = require('gulp');
-var sass = require('gulp-sass');
-var rename = require('gulp-rename');
-var cssmin = require('gulp-minify-css');
-var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
-var jshint = require('gulp-jshint');
-var scsslint = require('gulp-scss-lint');
-var browserSync = require('browser-sync');
-var reload = browserSync.reload;
+const { task, src, dest, parallel, series, watch } = require('gulp');
+const sass = require('gulp-sass');
+const autoprefixer = require('gulp-autoprefixer');
+const babel = require('gulp-babel');
+const browserSync = require('browser-sync');
+const reload = browserSync.reload;
 
-gulp.task('scss', function() {
-  return gulp.src('scss/main.scss')
-    .pipe(sass({errLogToConsole: true}))
-    .pipe(cssmin())
-    .pipe(rename({ suffix: '.min' }))
+// Build & Deploy
+const del = require('del');
+const rename = require('gulp-rename');
+const csso = require('gulp-csso');
+const uglify = require('gulp-uglify');
+const ghpages = require('gulp-gh-pages');
+
+task('styles', () => {
+  return src('./src/scss/**/*.scss')
+    .pipe(sass.sync().on('error', sass.logError))
+    .pipe(autoprefixer({
+      browsers: ['last 2 versions'],
+      cascade: false
+    }))
     .pipe(reload({stream:true}))
-    .pipe(gulp.dest('dist/css'));
+    .pipe(rename('styles.css'))
+    .pipe(dest('./dist'));
 });
 
-gulp.task('browser-sync', function() {
-    browserSync({
-        server: {
-            baseDir: 'dist/'
-        }
-    });
+task('styles:build', () => {
+  return src('./src/scss/**/*.scss')
+    .pipe(sass.sync().on('error', sass.logError))
+    .pipe(autoprefixer({
+      browsers: ['last 2 versions'],
+      cascade: false
+    }))
+    .pipe(csso())
+    .pipe(rename('styles.css'))
+    .pipe(dest('./build'));
 });
 
-gulp.task('deploy', function () {
-    return gulp.src('dist/**/*')
-        .pipe(deploy());
+task('html', () => {
+  return src('./src/**/*.html')
+    .pipe(reload({stream:true}))
+    .pipe(dest('./dist'));
 });
 
-gulp.task('js', function() {
-  gulp.src('js/*.js')
+task('html:build', () => {
+  return src('./src/**/*.html')
+    .pipe(dest('./build'));
+});
+
+task('watch', () => {
+  watch('./src/**/*.html', parallel('html', d => d()));
+  watch('./src/scss/**/*.scss', parallel('styles', d => d()));
+  watch('./src/js/**/*.js', parallel('js', d => d()));
+});
+
+task('js', () => {
+  return src('./src/js/*.js')
+    .pipe(reload({stream:true}))
+    .pipe(dest('dist'));
+});
+
+task('js:build', () => {
+  return src('./src/js/*.js')
+    .pipe(babel({
+      presets: ['@babel/env']
+    }))
     .pipe(uglify())
-    .pipe(rename('all.min.js'))
-    .pipe(reload({stream:true}))
-    .pipe(gulp.dest('dist/js'));
+    .pipe(dest('build'));
 });
 
-gulp.task('scss-lint', function() {
-  gulp.src('scss/**/*.scss')
-    .pipe(scsslint());
+task('bs', () => {
+  browserSync({
+    server: {
+        baseDir: 'dist/'
+    },
+    open: false,
+    notify: false
+  });
 });
 
-gulp.task('html', function() {
-  gulp.src('./*.html')
-    .pipe(gulp.dest('dist/'))
-    .pipe(reload({stream:true}));
+task('bs:build', () => {
+  browserSync({
+    server: {
+        baseDir: 'build/'
+    },
+    open: false,
+    notify: false
+  });
 });
 
-gulp.task('jshint', function() {
-  gulp.src('js/*.js')
-    .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter('jshint-stylish'));
+task('clean', () => {
+  return del(['build/**/*']);
 });
 
-gulp.task('watch', function() {
-  gulp.watch('scss/**/*.scss', ['scss']);
-  gulp.watch('js/*.js', ['jshint', 'js']);
-  gulp.watch('./*.html', ['html']);
+task('ghpages', function () {
+  return src("./build/**/*")
+    .pipe(ghpages())
 });
 
-gulp.task('default', ['scss-lint', 'browser-sync', 'js', 'html', 'scss', 'watch']);
+task('default',
+  series(
+    parallel('html', 'styles', 'js'),
+    parallel('bs', 'watch')
+  )
+);
+task('build',
+  series(
+    'clean',
+    parallel('styles:build', 'html:build', 'js:build'),
+    'bs:build'
+  )
+);

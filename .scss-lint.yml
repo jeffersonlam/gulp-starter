@@ -1,8 +1,0 @@
-scss_files: 'scss/**/*.scss'
-
-exclude: 'scss/vendors/**'
-
-linters:
-  HexNotation:
-    enabled: true
-    style: 'uppercase'
