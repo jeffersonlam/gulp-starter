@@ -1,23 +1,13 @@
 # gulp-starter
 
-This is a starter repo with Gulp. Gulp tasks include:
-- Compiling Sass
-- CSS and JS Minification
-- Browsersync
-- Sass lint
-- JS hint
+This is a Gulp4 starter. 
 
 ## Getting started
 You will need:
 - Node
   - [Download Node here](https://nodejs.org/download/)
 - Gulp
-  - Run `npm install --global gulp`
-- scss-lint gem
-  - Run `gem install scss-lint`
-  - If you're on Mac, you might need to run `sudo gem install scss-lint`
-  - If all else fails, you can remove the `scss-lint` task altogether from `gulpfile.js`.
-
+  - Run `npm i -g gulp`
 
 ##### 1. Clone this repo
 ```bash
@@ -28,7 +18,7 @@ git clone https://github.com/jeffersonlam/gulp-starter.git
 cd gulp-starter
 npm install
 ```
-##### 3. Start up gulp
+##### 3. Start gulp
 ```bash
 gulp
 ```
