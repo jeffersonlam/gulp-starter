@@ -23,7 +23,8 @@ task('styles', () => {
     }))
     .pipe(reload({stream:true}))
     .pipe(rename('styles.css'))
-    .pipe(dest('./dist'));
+    .pipe(dest('./dist'))
+    .pipe(browserSync.stream());
 });
 
 task('styles:build', () => {
@@ -76,7 +77,7 @@ task('bs', () => {
         baseDir: 'dist/'
     },
     open: false,
-    notify: false
+    notify: true
   });
 });
 
